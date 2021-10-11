@@ -1,0 +1,8 @@
+DROP TABLE IF EXISTS book;
+
+CREATE TABLE book (
+    id INT AUTO_INCREMENT  PRIMARY KEY,
+    name VARCHAR(250) NOT NULL,
+    author_id BIGINT NOT NULL,
+    genre_id BIGINT NOT NULL
+);
