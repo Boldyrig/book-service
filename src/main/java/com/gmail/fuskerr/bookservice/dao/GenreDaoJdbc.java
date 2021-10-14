@@ -1,6 +1,6 @@
 package com.gmail.fuskerr.bookservice.dao;
 
-import com.gmail.fuskerr.bookservice.domain.Author;
+import com.gmail.fuskerr.bookservice.domain.Genre;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -17,44 +17,44 @@ import java.util.Map;
 
 @Repository
 @RequiredArgsConstructor
-public class AuthorDaoJdbc implements AuthorDao {
+public class GenreDaoJdbc implements GenreDao {
 
     private final static String ID_FIELD_NAME = "id";
     private final static String NAME_FIELD_NAME = "name";
 
     private final NamedParameterJdbcOperations jdbc;
-    private final RowMapper<Author> authorMapper = new AuthorMapper();
+    private final RowMapper<Genre> genreMapper = new GenreMapper();
 
     @Override
-    public List<Author> getAll() {
+    public List<Genre> getAll() {
         return jdbc.query(
-                "SELECT * FROM author",
-                authorMapper
+                "SELECT * FROM genre",
+                genreMapper
         );
     }
 
     @Override
-    public Author getById(long id) {
+    public Genre getById(long id) {
         return jdbc.queryForObject(
-                "SELECT * FROM author WHERE id=:id",
+                "SELECT * FROM genre WHERE id=:id",
                 Map.of(ID_FIELD_NAME, id),
-                authorMapper
+                genreMapper
         );
     }
 
     @Override
     public void deleteById(long id) {
         jdbc.update(
-                "DELETE FROM author WHERE id=:id",
+                "DELETE FROM genre WHERE id=:id",
                 Map.of(ID_FIELD_NAME, id));
     }
 
     @Override
-    public Long insert(Author author) {
+    public Long insert(Genre genre) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        SqlParameterSource params = new MapSqlParameterSource(NAME_FIELD_NAME, author.getName());
+        SqlParameterSource params = new MapSqlParameterSource(NAME_FIELD_NAME, genre.getName());
         jdbc.update(
-                "INSERT INTO author (name) VALUES (:name)",
+                "INSERT INTO genre (name) VALUES (:name)",
                 params,
                 keyHolder
         );
@@ -62,22 +62,22 @@ public class AuthorDaoJdbc implements AuthorDao {
     }
 
     @Override
-    public void update(Author author) {
+    public void update(Genre genre) {
         Map<String, Object> params = Map.of(
-                ID_FIELD_NAME, author.getId(),
-                NAME_FIELD_NAME, author.getName());
+                ID_FIELD_NAME, genre.getId(),
+                NAME_FIELD_NAME, genre.getName());
         jdbc.update(
-                "UPDATE author SET name=:name WHERE id=:id",
+                "UPDATE genre SET name=:name WHERE id=:id",
                 params
         );
     }
 
-    private static class AuthorMapper implements RowMapper<Author> {
+    private static class GenreMapper implements RowMapper<Genre> {
         @Override
-        public Author mapRow(ResultSet rs, int rowNum) throws SQLException {
+        public Genre mapRow(ResultSet rs, int rowNum) throws SQLException {
             long id = rs.getLong(ID_FIELD_NAME);
             String name = rs.getString(NAME_FIELD_NAME);
-            return new Author(id, name);
+            return new Genre(id, name);
         }
     }
 }

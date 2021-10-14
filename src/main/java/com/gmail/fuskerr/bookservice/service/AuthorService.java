@@ -8,6 +8,6 @@ public interface AuthorService {
     List<Author> getAll();
     Author get(long id);
     void delete(long id);
-    long insert(Author author);
+    Long insert(Author author);
     void update(Author author);
 }

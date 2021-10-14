@@ -29,8 +29,8 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public long insert(Author author) {
-        return 0;
+    public Long insert(Author author) {
+        return dao.insert(author);
     }
 
     @Override

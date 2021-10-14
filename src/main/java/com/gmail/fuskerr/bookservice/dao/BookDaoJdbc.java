@@ -5,6 +5,7 @@ import com.gmail.fuskerr.bookservice.domain.Book;
 import com.gmail.fuskerr.bookservice.domain.BookShort;
 import com.gmail.fuskerr.bookservice.domain.Genre;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
@@ -63,12 +64,15 @@ public class BookDaoJdbc implements BookDao {
     @Override
     public Book getById(long id) {
         Map<String, Object> params = Map.of(ID_FIELD_NAME, id);
-
-        BookShort bookShort = jdbc.queryForObject(
-                "SELECT * FROM BOOK WHERE id=:id",
-                params,
-                bookMapper
-        );
+        BookShort bookShort;
+        try {
+            bookShort = jdbc.queryForObject(
+                    "SELECT * FROM book WHERE id=:id",
+                    params,
+                    bookMapper);
+        } catch(DataAccessException ex) {
+            return null;
+        }
 
         Author author = authorDao.getById(bookShort.getAuthorId());
         Genre genre = genreDao.getById(bookShort.getGenreId());
@@ -111,7 +115,7 @@ public class BookDaoJdbc implements BookDao {
         jdbc.update(
                 "UPDATE book SET name=:name, author_id=:author_id, genre_id=:genre_id WHERE id=:id",
                 params
-                );
+        );
     }
 
     private static class BookRowMapper implements RowMapper<BookShort> {

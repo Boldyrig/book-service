@@ -8,6 +8,6 @@ public interface GenreDao {
     List<Genre> getAll();
     Genre getById(long id);
     void deleteById(long id);
-    long insert(Genre book);
-    void update(Genre book);
+    Long insert(Genre genre);
+    void update(Genre genre);
 }

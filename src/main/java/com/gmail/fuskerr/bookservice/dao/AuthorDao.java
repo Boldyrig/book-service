@@ -8,6 +8,6 @@ public interface AuthorDao {
     List<Author> getAll();
     Author getById(long id);
     void deleteById(long id);
-    long insert(Author author);
+    Long insert(Author author);
     void update(Author author);
 }
