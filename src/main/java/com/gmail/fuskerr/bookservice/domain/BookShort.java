@@ -5,7 +5,9 @@ import lombok.Value;
 
 @RequiredArgsConstructor
 @Value
-public class Author {
+public class BookShort {
     long id;
-    String name;
+    String title;
+    long authorId;
+    long genreId;
 }

@@ -6,5 +6,6 @@ import lombok.Value;
 @RequiredArgsConstructor
 @Value
 public class Genre {
+    long id;
     String name;
 }

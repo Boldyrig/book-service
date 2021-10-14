@@ -1,13 +1,13 @@
-package com.gmail.fuskerr.bookservice.dao;
+package com.gmail.fuskerr.bookservice.service;
 
 import com.gmail.fuskerr.bookservice.domain.Book;
 
 import java.util.List;
 
-public interface BookDao {
+public interface BookService {
     List<Book> getAll();
     Book getById(long id);
     void deleteById(long id);
-    Long insert(Book book);
+    long insert(Book book);
     void update(Book book);
 }
