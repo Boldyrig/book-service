@@ -1,7 +1,10 @@
 package com.gmail.fuskerr.bookservice.service;
 
 import com.gmail.fuskerr.bookservice.dao.BookDao;
+import com.gmail.fuskerr.bookservice.domain.Author;
 import com.gmail.fuskerr.bookservice.domain.Book;
+import com.gmail.fuskerr.bookservice.domain.BookShort;
+import com.gmail.fuskerr.bookservice.domain.Genre;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +37,27 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public Long insert(BookShort book) {
+        return insert(new Book(
+                        book.getId(),
+                        new Author(book.getAuthorId(), ""),
+                        new Genre(book.getGenreId(), ""),
+                        book.getTitle()
+                ));
+    }
+
+    @Override
     public void update(Book book) {
         dao.update(book);
+    }
+
+    @Override
+    public void update(BookShort book) {
+        update(new Book(
+                book.getId(),
+                new Author(book.getAuthorId(), ""),
+                new Genre(book.getGenreId(), ""),
+                book.getTitle()
+        ));
     }
 }
