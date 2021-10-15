@@ -14,3 +14,5 @@ spring:
   h2:
     console:
       enabled: true
+  liquibase:
+    change-log: db/changelog/changelog-liquibase.xml
