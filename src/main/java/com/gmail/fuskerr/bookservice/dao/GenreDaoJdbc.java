@@ -2,6 +2,7 @@ package com.gmail.fuskerr.bookservice.dao;
 
 import com.gmail.fuskerr.bookservice.domain.Genre;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
@@ -35,11 +36,15 @@ public class GenreDaoJdbc implements GenreDao {
 
     @Override
     public Genre getById(long id) {
-        return jdbc.queryForObject(
-                "SELECT * FROM genre WHERE id=:id",
-                Map.of(ID_FIELD_NAME, id),
-                genreMapper
-        );
+        try {
+            return jdbc.queryForObject(
+                    "SELECT * FROM genre WHERE id=:id",
+                    Map.of(ID_FIELD_NAME, id),
+                    genreMapper
+            );
+        } catch(DataAccessException ex) {
+            return null;
+        }
     }
 
     @Override

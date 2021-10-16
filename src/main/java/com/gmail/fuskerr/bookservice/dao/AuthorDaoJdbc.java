@@ -2,6 +2,7 @@ package com.gmail.fuskerr.bookservice.dao;
 
 import com.gmail.fuskerr.bookservice.domain.Author;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
@@ -35,11 +36,15 @@ public class AuthorDaoJdbc implements AuthorDao {
 
     @Override
     public Author getById(long id) {
-        return jdbc.queryForObject(
-                "SELECT * FROM author WHERE id=:id",
-                Map.of(ID_FIELD_NAME, id),
-                authorMapper
-        );
+        try {
+            return jdbc.queryForObject(
+                    "SELECT * FROM author WHERE id=:id",
+                    Map.of(ID_FIELD_NAME, id),
+                    authorMapper
+            );
+        } catch(DataAccessException ex) {
+            return null;
+        }
     }
 
     @Override
